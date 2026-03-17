@@ -1,7 +1,7 @@
 import type { ActivityConfig, ScoreRange } from "../domain/types/scoring.js";
 import type { DailyForecast } from "../domain/types/weather.js";
 
-interface DayResult {
+export interface DayResult {
   date: string;
   weather: DailyForecast;
   rankings: Array<{ activity: string; score: number }>;
