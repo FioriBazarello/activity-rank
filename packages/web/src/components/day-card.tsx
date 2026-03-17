@@ -18,7 +18,7 @@ function formatDate(dateStr: string): string {
 
 export function DayCard({ day }: DayCardProps) {
   return (
-    <Card className="min-w-[280px] w-[280px] shrink-0">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>{formatDate(day.date)}</CardTitle>
       </CardHeader>
