@@ -38,7 +38,7 @@ export function SearchBar({ onSearch, loading, variant = "compact" }: SearchBarP
         type="submit"
         disabled={loading || !city.trim()}
         size={isHero ? "lg" : "default"}
-        className="transition-all duration-300"
+        className={`transition-all duration-300 ${isHero ? "h-12" : ""}`}
       >
         <Search className="size-4" />
         {loading ? "Searching..." : "Search"}

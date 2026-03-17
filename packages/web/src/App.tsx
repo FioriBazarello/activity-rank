@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useLazyQuery } from "@apollo/client/react";
 import { ACTIVITY_RANKING_QUERY } from "@/graphql/queries";
 import type { ActivityRankingQuery } from "@/types/graphql";
@@ -8,16 +9,20 @@ import { ErrorMessage } from "@/components/error-message";
 import { MapPin } from "lucide-react";
 
 function App() {
+  const [lastCity, setLastCity] = useState<string | null>(null);
   const [fetchRanking, { data, loading, error }] = useLazyQuery<ActivityRankingQuery>(
     ACTIVITY_RANKING_QUERY,
   );
 
   function handleSearch(city: string) {
+    setLastCity(city);
     fetchRanking({ variables: { city } });
   }
 
   function handleRetry() {
-    fetchRanking();
+    if (lastCity) {
+      fetchRanking({ variables: { city: lastCity } });
+    }
   }
 
   const result = data?.activityRanking;
