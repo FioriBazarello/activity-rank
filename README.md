@@ -58,7 +58,8 @@ Server (Apollo Server)
   ├── Domain Types     → DailyForecast, Location, scoring types
   ├── ScoringService   → pure business logic (application/)
   ├── Adapters         → OpenMeteoWeatherAdapter, OpenMeteoGeocodingAdapter
-  └── ScoringConfig    → weights & ranges (config/)
+  ├── ScoringConfig    → weights & ranges (config/)
+  └── Types            → GraphQLContext definition (types/)
 ```
 
 ## 4. Tech Stack
