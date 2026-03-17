@@ -34,28 +34,31 @@ Monorepo with pnpm workspaces:
 
 Backend layers:
 
-- **Resolvers** — Thin orchestration layer, no business logic
-- **GeocodingService** — City name → lat/lon via Open-Meteo Geocoding API
-- **WeatherService** — lat/lon → 7-day forecast via Open-Meteo Forecast API
-- **ScoringService** — Forecast data + scoring config → activity rankings
-- **ScoringConfig** — Declarative configuration file with weights and value ranges per activity
+- **Resolvers** (schema/) — Thin orchestration layer, depends only on interfaces
+- **Ports** (domain/ports/) — WeatherProvider and GeocodingProvider interfaces
+- **Domain Types** (domain/types/) — DailyForecast, Location, scoring types
+- **ScoringService** (application/) — Pure business logic, config-driven scoring
+- **Adapters** (infrastructure/) — OpenMeteoWeatherAdapter, OpenMeteoGeocodingAdapter
+- **ScoringConfig** (config/) — Declarative configuration with weights and ranges
 
 Key architectural decisions:
 
+- **Ports & Adapters (hexagonal architecture)**: External services (weather, geocoding) are abstracted behind interfaces. Swapping providers requires implementing a new adapter — no changes to business logic or resolvers.
 - **Config-driven scoring**: Adding a new activity requires only adding a config block. The scoring engine is generic.
-- **Dependency injection via Apollo Context**: Services are injected into resolvers, enabling easy testing with mocks.
-- **Separation of concerns**: Each service has a single responsibility. The resolver doesn't know how scoring works; the scoring service doesn't know about HTTP.
+- **Dependency injection via Apollo Context**: Interfaces are injected into resolvers, not concrete classes, enabling easy testing with mocks.
+- **Separation of concerns**: Domain types have no infrastructure dependencies. Adapters encapsulate API specifics.
 
 ```
 Client (React + Apollo Client)
         │ GraphQL (HTTP)
         ▼
 Server (Apollo Server)
-  ├── Resolvers        → orchestration only
-  ├── GeocodingService → city → lat/lon
-  ├── WeatherService   → lat/lon → forecast
-  ├── ScoringService   → forecast → ranked scores
-  └── ScoringConfig    → weights & ranges (data)
+  ├── Resolvers        → orchestration only (depends on ports)
+  ├── Ports            → WeatherProvider, GeocodingProvider (interfaces)
+  ├── Domain Types     → DailyForecast, Location, scoring types
+  ├── ScoringService   → pure business logic (application/)
+  ├── Adapters         → OpenMeteoWeatherAdapter, OpenMeteoGeocodingAdapter
+  └── ScoringConfig    → weights & ranges (config/)
 ```
 
 ## 4. Tech Stack
@@ -80,13 +83,14 @@ Scores are calculated per day, giving users a 7-day activity recommendation view
 
 - 25 unit tests across 4 test files
 - TDD approach: tests written before implementation for all backend services
-- Test coverage: ScoringConfig (validation), ScoringService (scoring logic), GeocodingService (API parsing, error handling), WeatherService (API parsing, error handling)
+- Test coverage: ScoringConfig (validation), ScoringService (scoring logic), OpenMeteoWeatherAdapter (API parsing, error handling), OpenMeteoGeocodingAdapter (API parsing, error handling)
 - External API calls mocked with `vi.spyOn(global, 'fetch')`
 
 ## 7. AI Assistance
 
 How AI (Cursor + Claude) was used:
 
+- **Architecture refactoring**: Collaborative brainstorming session to evolve from flat services to Ports & Adapters pattern, with structured decision-making for each design choice
 - **Brainstorming**: Explored architectural approaches and scoring strategies through structured Q&A
 - **Design validation**: Reviewed scoring weights and ranges for reasonableness
 - **Boilerplate generation**: Monorepo config, Vite setup, shadcn/ui initialization
