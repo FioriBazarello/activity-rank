@@ -21,6 +21,7 @@ function App() {
   }
 
   const result = data?.activityRanking;
+  const hasInteracted = Boolean(result || loading || error);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -30,8 +31,31 @@ function App() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 py-6">
-        {result && (
+      <main className="mx-auto max-w-5xl px-6">
+        <div
+          className={`flex flex-col transition-all duration-300 ${
+            hasInteracted ? "py-6 items-start" : "py-24 items-center justify-center"
+          }`}
+        >
+          {!hasInteracted && (
+            <div className="text-center mb-6">
+              <p className="text-lg font-medium text-muted-foreground">
+                Search for a city to see activity rankings
+              </p>
+              <p className="text-sm mt-1 text-muted-foreground">
+                Get a 7-day forecast with the best activities for each day
+              </p>
+            </div>
+          )}
+
+          <SearchBar
+            onSearch={handleSearch}
+            loading={loading}
+            variant={hasInteracted ? "compact" : "hero"}
+          />
+        </div>
+
+        {result && !loading && (
           <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
             <MapPin className="size-4" />
             <span>
@@ -52,15 +76,6 @@ function App() {
 
         {result && !loading && (
           <RankingGrid forecast={result.forecast} />
-        )}
-
-        {!result && !loading && !error && (
-          <div className="flex flex-col items-center justify-center py-24 text-center text-muted-foreground">
-            <p className="text-lg font-medium">Search for a city to see activity rankings</p>
-            <p className="text-sm mt-1">
-              Get a 7-day forecast with the best activities for each day
-            </p>
-          </div>
         )}
       </main>
     </div>
