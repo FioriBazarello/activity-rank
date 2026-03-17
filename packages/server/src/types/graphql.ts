@@ -1,3 +1,7 @@
+import type { GeocodingService } from "../services/geocoding.service.js";
+import type { WeatherService } from "../services/weather.service.js";
+import type { ScoringService } from "../services/scoring.service.js";
+
 export interface Location {
   name: string;
   country: string;
@@ -5,11 +9,10 @@ export interface Location {
   longitude: number;
 }
 
-// TODO: Replace `any` with proper types when services are implemented
 export interface GraphQLContext {
   services: {
-    geocoding: { search(city: string): Promise<Location> };
-    weather: { getForecast(lat: number, lon: number): Promise<any[]> };
-    scoring: { rankActivities(forecast: any[]): any[] };
+    geocoding: GeocodingService;
+    weather: WeatherService;
+    scoring: ScoringService;
   };
 }
