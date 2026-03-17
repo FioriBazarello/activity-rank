@@ -1,4 +1,4 @@
-import type { OpenMeteoForecastResponse } from "../../types/weather.js";
+import type { OpenMeteoForecastResponse } from "./open-meteo.types.js";
 import type { WeatherProvider } from "../../domain/ports/weather.port.js";
 import type { DailyForecast } from "../../domain/types/weather.js";
 

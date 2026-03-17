@@ -1,4 +1,4 @@
-import { type ActivityConfig, ActivityType } from "../types/scoring.js";
+import { type ActivityConfig, ActivityType } from "../domain/types/scoring.js";
 
 export const scoringConfig: ActivityConfig[] = [
   {

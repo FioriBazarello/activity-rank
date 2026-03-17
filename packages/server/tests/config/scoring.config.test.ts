@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { scoringConfig } from "../../src/config/scoring.config.js";
-import { ActivityType } from "../../src/types/scoring.js";
+import { ActivityType } from "../../src/domain/types/scoring.js";
 
 describe("ScoringConfig", () => {
   it("defines all four activities", () => {

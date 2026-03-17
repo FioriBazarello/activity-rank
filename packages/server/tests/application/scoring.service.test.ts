@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { ScoringService } from "../../src/services/scoring.service.js";
+import { ScoringService } from "../../src/application/scoring.service.js";
 import { scoringConfig } from "../../src/config/scoring.config.js";
-import { ActivityType } from "../../src/types/scoring.js";
-import type { DailyForecast } from "../../src/types/weather.js";
+import { ActivityType } from "../../src/domain/types/scoring.js";
+import type { DailyForecast } from "../../src/domain/types/weather.js";
 
 const service = new ScoringService(scoringConfig);
 

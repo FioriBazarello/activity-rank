@@ -1,4 +1,4 @@
-import type { OpenMeteoGeocodingResponse } from "../../src/types/weather.js";
+import type { OpenMeteoGeocodingResponse } from "../../src/infrastructure/geocoding/open-meteo.types.js";
 
 export const parisGeocodingResponse: OpenMeteoGeocodingResponse = {
   results: [

@@ -1,5 +1,3 @@
-export type { DailyForecast } from "../domain/types/weather.js";
-
 export interface OpenMeteoForecastResponse {
   daily: {
     time: string[];
@@ -13,13 +11,4 @@ export interface OpenMeteoForecastResponse {
     sunshine_duration: number[];
     uv_index_max: number[];
   };
-}
-
-export interface OpenMeteoGeocodingResponse {
-  results?: Array<{
-    name: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-  }>;
 }

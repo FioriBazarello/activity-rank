@@ -1,4 +1,4 @@
-import type { OpenMeteoGeocodingResponse } from "../../types/weather.js";
+import type { OpenMeteoGeocodingResponse } from "./open-meteo.types.js";
 import type { GeocodingProvider } from "../../domain/ports/geocoding.port.js";
 import type { Location } from "../../domain/types/location.js";
 

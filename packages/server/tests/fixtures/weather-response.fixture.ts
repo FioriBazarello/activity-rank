@@ -1,4 +1,4 @@
-import type { OpenMeteoForecastResponse } from "../../src/types/weather.js";
+import type { OpenMeteoForecastResponse } from "../../src/infrastructure/weather/open-meteo.types.js";
 
 export const parisWeatherResponse: OpenMeteoForecastResponse = {
   daily: {

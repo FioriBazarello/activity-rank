@@ -1,16 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { GeocodingService } from "../../src/services/geocoding.service.js";
+import { OpenMeteoGeocodingAdapter } from "../../src/infrastructure/geocoding/open-meteo-geocoding.adapter.js";
 import {
   parisGeocodingResponse,
   emptyGeocodingResponse,
   noResultsGeocodingResponse,
 } from "../fixtures/geocoding-response.fixture.js";
 
-describe("GeocodingService", () => {
-  let service: GeocodingService;
+describe("OpenMeteoGeocodingAdapter", () => {
+  let adapter: OpenMeteoGeocodingAdapter;
 
   beforeEach(() => {
-    service = new GeocodingService();
+    adapter = new OpenMeteoGeocodingAdapter();
     vi.restoreAllMocks();
   });
 
@@ -20,7 +20,7 @@ describe("GeocodingService", () => {
       json: async () => parisGeocodingResponse,
     } as Response);
 
-    const result = await service.search("Paris");
+    const result = await adapter.search("Paris");
     expect(result).toEqual({
       name: "Paris",
       country: "France",
@@ -35,7 +35,7 @@ describe("GeocodingService", () => {
       json: async () => emptyGeocodingResponse,
     } as Response);
 
-    await expect(service.search("Xyzabc")).rejects.toThrow("City not found");
+    await expect(adapter.search("Xyzabc")).rejects.toThrow("City not found");
   });
 
   it("throws error when city is not found (no results key)", async () => {
@@ -44,7 +44,7 @@ describe("GeocodingService", () => {
       json: async () => noResultsGeocodingResponse,
     } as Response);
 
-    await expect(service.search("Xyzabc")).rejects.toThrow("City not found");
+    await expect(adapter.search("Xyzabc")).rejects.toThrow("City not found");
   });
 
   it("throws error when API request fails", async () => {
@@ -53,7 +53,7 @@ describe("GeocodingService", () => {
       status: 500,
     } as Response);
 
-    await expect(service.search("Paris")).rejects.toThrow("Geocoding API error");
+    await expect(adapter.search("Paris")).rejects.toThrow("Geocoding API error");
   });
 
   it("calls Open-Meteo geocoding API with correct URL", async () => {
@@ -62,7 +62,7 @@ describe("GeocodingService", () => {
       json: async () => parisGeocodingResponse,
     } as Response);
 
-    await service.search("Paris");
+    await adapter.search("Paris");
     expect(fetchSpy).toHaveBeenCalledWith(
       expect.stringContaining("geocoding-api.open-meteo.com/v1/search?name=Paris")
     );

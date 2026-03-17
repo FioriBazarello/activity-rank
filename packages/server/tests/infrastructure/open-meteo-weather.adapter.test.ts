@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { WeatherService } from "../../src/services/weather.service.js";
+import { OpenMeteoWeatherAdapter } from "../../src/infrastructure/weather/open-meteo-weather.adapter.js";
 import { parisWeatherResponse } from "../fixtures/weather-response.fixture.js";
 
-describe("WeatherService", () => {
-  let service: WeatherService;
+describe("OpenMeteoWeatherAdapter", () => {
+  let adapter: OpenMeteoWeatherAdapter;
 
   beforeEach(() => {
-    service = new WeatherService();
+    adapter = new OpenMeteoWeatherAdapter();
     vi.restoreAllMocks();
   });
 
@@ -16,7 +16,7 @@ describe("WeatherService", () => {
       json: async () => parisWeatherResponse,
     } as Response);
 
-    const result = await service.getForecast(48.85, 2.35);
+    const result = await adapter.getForecast(48.85, 2.35);
     expect(result).toHaveLength(7);
   });
 
@@ -26,7 +26,7 @@ describe("WeatherService", () => {
       json: async () => parisWeatherResponse,
     } as Response);
 
-    const result = await service.getForecast(48.85, 2.35);
+    const result = await adapter.getForecast(48.85, 2.35);
     const firstDay = result[0];
 
     expect(firstDay.date).toBe("2026-03-17");
@@ -47,7 +47,7 @@ describe("WeatherService", () => {
       status: 503,
     } as Response);
 
-    await expect(service.getForecast(48.85, 2.35)).rejects.toThrow("Weather API error");
+    await expect(adapter.getForecast(48.85, 2.35)).rejects.toThrow("Weather API error");
   });
 
   it("calls Open-Meteo forecast API with correct parameters", async () => {
@@ -56,7 +56,7 @@ describe("WeatherService", () => {
       json: async () => parisWeatherResponse,
     } as Response);
 
-    await service.getForecast(48.85, 2.35);
+    await adapter.getForecast(48.85, 2.35);
     const calledUrl = fetchSpy.mock.calls[0][0] as string;
 
     expect(calledUrl).toContain("api.open-meteo.com/v1/forecast");
