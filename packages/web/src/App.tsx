@@ -25,13 +25,12 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="mx-auto max-w-7xl px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <h1 className="text-xl font-bold tracking-tight shrink-0">Activity Rank</h1>
-          <SearchBar onSearch={handleSearch} loading={loading} />
+        <div className="mx-auto max-w-5xl px-6 py-4">
+          <h1 className="text-xl font-bold tracking-tight">Activity Rank</h1>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-6 py-6">
+      <main className="mx-auto max-w-5xl px-6 py-6">
         {result && (
           <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
             <MapPin className="size-4" />
