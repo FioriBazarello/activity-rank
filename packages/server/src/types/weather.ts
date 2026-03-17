@@ -1,15 +1,4 @@
-export interface DailyForecast {
-  date: string;
-  temperatureMax: number;
-  temperatureMin: number;
-  precipitationSum: number;
-  snowfallSum: number;
-  windSpeedMax: number;
-  precipitationProbabilityMax: number;
-  weatherCode: number;
-  sunshineDuration: number;
-  uvIndexMax: number;
-}
+export type { DailyForecast } from "../domain/types/weather.js";
 
 export interface OpenMeteoForecastResponse {
   daily: {
