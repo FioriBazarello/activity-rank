@@ -7,12 +7,10 @@ interface RankingGridProps {
 
 export function RankingGrid({ forecast }: RankingGridProps) {
   return (
-    <div className="w-full overflow-x-auto pb-4">
-      <div className="flex gap-4 px-1 py-1">
-        {forecast.map((day) => (
-          <DayCard key={day.date} day={day} />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-4">
+      {forecast.map((day) => (
+        <DayCard key={day.date} day={day} />
+      ))}
     </div>
   );
 }
