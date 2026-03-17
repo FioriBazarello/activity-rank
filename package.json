@@ -1,0 +1,11 @@
+{
+  "name": "activity-rank",
+  "private": true,
+  "scripts": {
+    "dev:server": "pnpm --filter @activity-rank/server dev",
+    "dev:web": "pnpm --filter @activity-rank/web dev",
+    "dev": "pnpm run --parallel dev:server dev:web",
+    "test": "pnpm --filter @activity-rank/server test",
+    "build": "pnpm -r build"
+  }
+}
